@@ -1,56 +1,48 @@
-#SAMPLE Elements to test the sort
-# 50 40 20 60 80 100 45 70 105 30 75
-
-#Here,
-#t is the Traversing pointer
-# piv --> Pivot Element's index
-#   x --> List storing user input
-#   a --> The temporary list for computation
-#   v --> Final Sorted list
-def lr(a,piv):
-    t=0
-    while(a[t]<a[piv] and t!=piv): #loop will exit when left element is Greater than Pivot Element
-        t+=1                       
-    if(t==piv):
-       #piv is at corrct position
+def left_to_right(lr_list,pivot_index):
+    pointer=0
+    while(lr_list[pointer]<lr_list[pivot_index] and pointer!=pivot_index): #loop will exit when left element is Greater than Pivot Element
+        pointer+=1                       
+    if(pointer==pivot_index):
+       #pivot_index is at corrct position
       
-       if(t>0):
-           a[0:t]= rl(a[0:t],0)
+       if(pointer>0):
+           lr_list[0:pointer]= right_to_left(lr_list[0:pointer],0)
       
-       a[t+1:]=rl(a[t+1:],0)
+       lr_list[pointer+1:]=right_to_left(lr_list[pointer+1:],0)
     else:
-        #swap(a[t],a[piv])
-        a[t],a[piv]=a[piv],a[t]
-        print(a," swaped ",a[t]," and ",a[piv])
-        a=rl(a,t)
-    return a
-def rl(a,piv):
-    t=len(a)-1
+        #swap(a[t],a[pivot_index])
+        lr_list[pointer],lr_list[pivot_index]=lr_list[pivot_index],lr_list[pointer]
+        print(lr_list," swaped ",lr_list[pointer]," and ",lr_list[pivot_index])
+        lr_list=right_to_left(lr_list,pointer)
+    return lr_list
+
+def right_to_left(rl_list,pivot_index):
+    t=len(rl_list)-1
     
-    if(len(a)<=1):
+    if(len(rl_list)<=1):
         
-        return a
+        return rl_list
     
-    while(a[t]>a[piv] and t!=piv):
+    while(rl_list[t]>rl_list[pivot_index] and t!=pivot_index):
         t-=1
      
-    if(t==piv):
-        #piv is at corrct position
+    if(t==pivot_index):
+        #pivot_index is at corrct position
       
        if(t>0): 
-           a[0:t]= rl(a[0:t],0)
+           rl_list[0:t]= right_to_left(rl_list[0:t],0)
        
-       a[t+1:]=rl(a[t+1:],0)
+       rl_list[t+1:]=right_to_left(rl_list[t+1:],0)
        
     else:
-        #swap(a[t],a[piv])
-        a[t],a[piv]=a[piv],a[t]
-        print(a," swaped ",a[t]," and ",a[piv])
-        a=lr(a,t)
-    return a
+        #swap(a[t],a[pivot_index])
+        rl_list[t],rl_list[pivot_index]=rl_list[pivot_index],rl_list[t]
+        print(rl_list," swaped ",rl_list[t]," and ",rl_list[pivot_index])
+        rl_list=left_to_right(rl_list,t)
+    return rl_list
 
-z=input("Enter the Ele of list for Quick Sort : ")
-x = list(map(int, z.split()))
-v=rl(x,0)
-print("sorted List is")
-print(v)
+user_inp=input("Enter the Elements of list for Quick Sort : ")
+input_list = list(map(int, user_inp.split()))
+output_list=right_to_left(input_list,0)
+print("sorted List is: ")
+print(output_list)
